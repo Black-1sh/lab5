@@ -1,18 +1,22 @@
 #include <stdio.h>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+
 #include <iostream>
 #include "ShaderLoader.h"
 #include "Model.h"
 #include "glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
+
 const unsigned int SCR_WIDTH = 1024;
 const unsigned int SCR_HEIGHT = 768;
+
 glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 bool firstMouse = true;
+
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 float yaw = -90.0f;
@@ -20,6 +24,7 @@ float pitch = 0.0f;
 float fov = 45.0f;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
+
 void processInput(GLFWwindow* window)
 {
     float cameraSpeed = 2.5f * deltaTime;
@@ -36,6 +41,7 @@ void processInput(GLFWwindow* window)
         cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
 }
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
+
 {
     float xpos = static_cast<float>(xposIn);
     float ypos = static_cast<float>(yposIn);
@@ -64,12 +70,14 @@ void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
     front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
     cameraFront = glm::normalize(front);
 }
+
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
     fov -= (float)yoffset;
     if (fov < 1.0f) fov = 1.0f;
     if (fov > 45.0f) fov = 45.0f;
 }
+
 int main()
 {
     glfwInit();
@@ -98,7 +106,9 @@ int main()
     ShaderLoader shader("vert_shader.glsl", "frag_shader.glsl");
     GLuint shaderProgram = shader.getProgram();
     Model model("Cube.obj"); 
+   
     while (!glfwWindowShouldClose(window))
+    
     {
         float currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
@@ -118,6 +128,7 @@ int main()
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
+
     glfwTerminate();
     return 0;
 }
